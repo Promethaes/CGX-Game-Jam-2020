@@ -20,6 +20,22 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "LeftAction",
+                    "type": "Button",
+                    "id": "66f03f99-bb6d-4dfd-9c68-49bdb1e0ec90",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RightAction",
+                    "type": "Button",
+                    "id": "bf7e89ee-ae15-41ad-b94b-9f044a3bc09d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -152,6 +168,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "RightMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3951c60a-3f3f-4828-ae1c-918dee4a7372",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "26ef840c-d7d8-4ada-bf59-103186214b43",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

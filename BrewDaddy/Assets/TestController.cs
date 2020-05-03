@@ -33,6 +33,22 @@ public class @TestController : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""LeftAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""66f03f99-bb6d-4dfd-9c68-49bdb1e0ec90"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""RightAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""bf7e89ee-ae15-41ad-b94b-9f044a3bc09d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -167,6 +183,28 @@ public class @TestController : IInputActionCollection, IDisposable
                     ""action"": ""RightMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3951c60a-3f3f-4828-ae1c-918dee4a7372"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""26ef840c-d7d8-4ada-bf59-103186214b43"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -177,6 +215,8 @@ public class @TestController : IInputActionCollection, IDisposable
         m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
         m_PlayerControls_LeftMove = m_PlayerControls.FindAction("LeftMove", throwIfNotFound: true);
         m_PlayerControls_RightMove = m_PlayerControls.FindAction("RightMove", throwIfNotFound: true);
+        m_PlayerControls_LeftAction = m_PlayerControls.FindAction("LeftAction", throwIfNotFound: true);
+        m_PlayerControls_RightAction = m_PlayerControls.FindAction("RightAction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -228,12 +268,16 @@ public class @TestController : IInputActionCollection, IDisposable
     private IPlayerControlsActions m_PlayerControlsActionsCallbackInterface;
     private readonly InputAction m_PlayerControls_LeftMove;
     private readonly InputAction m_PlayerControls_RightMove;
+    private readonly InputAction m_PlayerControls_LeftAction;
+    private readonly InputAction m_PlayerControls_RightAction;
     public struct PlayerControlsActions
     {
         private @TestController m_Wrapper;
         public PlayerControlsActions(@TestController wrapper) { m_Wrapper = wrapper; }
         public InputAction @LeftMove => m_Wrapper.m_PlayerControls_LeftMove;
         public InputAction @RightMove => m_Wrapper.m_PlayerControls_RightMove;
+        public InputAction @LeftAction => m_Wrapper.m_PlayerControls_LeftAction;
+        public InputAction @RightAction => m_Wrapper.m_PlayerControls_RightAction;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -249,6 +293,12 @@ public class @TestController : IInputActionCollection, IDisposable
                 @RightMove.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnRightMove;
                 @RightMove.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnRightMove;
                 @RightMove.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnRightMove;
+                @LeftAction.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnLeftAction;
+                @LeftAction.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnLeftAction;
+                @LeftAction.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnLeftAction;
+                @RightAction.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnRightAction;
+                @RightAction.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnRightAction;
+                @RightAction.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnRightAction;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -259,6 +309,12 @@ public class @TestController : IInputActionCollection, IDisposable
                 @RightMove.started += instance.OnRightMove;
                 @RightMove.performed += instance.OnRightMove;
                 @RightMove.canceled += instance.OnRightMove;
+                @LeftAction.started += instance.OnLeftAction;
+                @LeftAction.performed += instance.OnLeftAction;
+                @LeftAction.canceled += instance.OnLeftAction;
+                @RightAction.started += instance.OnRightAction;
+                @RightAction.performed += instance.OnRightAction;
+                @RightAction.canceled += instance.OnRightAction;
             }
         }
     }
@@ -267,5 +323,7 @@ public class @TestController : IInputActionCollection, IDisposable
     {
         void OnLeftMove(InputAction.CallbackContext context);
         void OnRightMove(InputAction.CallbackContext context);
+        void OnLeftAction(InputAction.CallbackContext context);
+        void OnRightAction(InputAction.CallbackContext context);
     }
 }

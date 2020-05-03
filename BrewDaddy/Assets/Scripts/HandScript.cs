@@ -5,7 +5,7 @@ using UnityEngine;
 public class HandScript : MonoBehaviour
 {
     public GameObject go;
-    public float movementForce = 2000.0f;
+    public float movementSpeed = 200.0f;
     public bool isRightHand = false;
 
     TestController inputActions;
@@ -32,7 +32,7 @@ public class HandScript : MonoBehaviour
         v.y = movementInput.y;
 
 
-        v *= movementForce;
+        v *= movementSpeed;
         v *= Time.deltaTime;
 
         go.GetComponent<Rigidbody>().AddForce(v, ForceMode.Impulse);
