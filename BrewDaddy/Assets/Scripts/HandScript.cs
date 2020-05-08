@@ -10,7 +10,7 @@ public class HandScript : MonoBehaviour
 
     TestController inputActions;
 
-    Vector2 movementInput;
+    public Vector2 movementInput;
 
     private void Awake()
     {

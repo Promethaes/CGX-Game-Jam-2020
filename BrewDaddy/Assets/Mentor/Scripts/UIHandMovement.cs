@@ -20,7 +20,7 @@ public class UIHandMovement : MonoBehaviour {
     public Vector3 leftHandInput = Vector3.zero;
     public Vector3 rightHandInput = Vector3.zero;
 
-
+    public int canMove = 1;
 
     // Start is called before the first frame update
     void Start() {
@@ -28,8 +28,8 @@ public class UIHandMovement : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        leftHandImage.transform.position += leftHandInput * speed * Time.deltaTime;
-        rightHandImage.transform.position += rightHandInput * speed * Time.deltaTime;
+        leftHandImage.transform.position += leftHandInput * speed * Time.deltaTime * canMove;
+        rightHandImage.transform.position += rightHandInput * speed * Time.deltaTime * canMove;
     }
 
     public void OnLeftMove(InputValue input) {
@@ -37,7 +37,7 @@ public class UIHandMovement : MonoBehaviour {
         leftHandInput = input.Get<Vector2>();
     }
 
-    public void OnRightMove(InputValue input) {
+    public void OnRightMove(InputValue input){
         // the vector2 will upsize to vector3 automatically
         rightHandInput = input.Get<Vector2>();
     }
