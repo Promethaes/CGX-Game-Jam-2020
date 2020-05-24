@@ -21,7 +21,7 @@ public class UIRightHandRayCast : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 1000, itemLayerMask)) {
             
-            Debug.Log("Right Hand - "+hit.collider.gameObject.name);
+            //Debug.Log("Right Hand - "+hit.collider.gameObject.name);
           
         }
 
@@ -34,7 +34,7 @@ public class UIRightHandRayCast : MonoBehaviour {
         if (Physics.Raycast(ray, out hit, 1000, eventLayerMask))
         {
 
-            Debug.Log("Right Hand - " + hit.collider.gameObject.name);
+            //Debug.Log("Right Hand - " + hit.collider.gameObject.name);
 
             if(hit.collider.gameObject.tag == "DishWashingGame")
             {
@@ -57,7 +57,7 @@ public class UIRightHandRayCast : MonoBehaviour {
         if (Physics.Raycast(ray, out hit, 1000, eventLayerMask))
         {
 
-            Debug.Log("Right Hand - " + hit.collider.gameObject.name);
+           // Debug.Log("Right Hand - " + hit.collider.gameObject.name);
 
             if (hit.collider.gameObject.tag == "DishWashingGame")
             {

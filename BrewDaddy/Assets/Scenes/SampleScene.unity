@@ -1061,6 +1061,7 @@ MonoBehaviour:
   speed: 250
   leftHandInput: {x: 0, y: 0, z: 0}
   rightHandInput: {x: 0, y: 0, z: 0}
+  canMove: 1
 --- !u!114 &643523364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2187,28 +2188,8 @@ MonoBehaviour:
   progressBar: {fileID: 1984916602}
   qteImageCircle: {fileID: 2005677262}
   handScript: {fileID: 643523363}
---- !u!1 &1809120190 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4544100974868000780, guid: 6c703bde8d7cc3549b8879a4442ba22b,
-    type: 3}
-  m_PrefabInstance: {fileID: 750451374145993570}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1809120192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809120190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa5e1037396e8174b99a07a2b15d6ded, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  QTEPrompt: {fileID: 0}
-  progressBar: {fileID: 0}
-  qteImageCircle: {fileID: 0}
-  handScript: {fileID: 0}
+  deadzoneThreshold: 0.5
+  gameLengthInSeconds: 20
 --- !u!1 &1949631217
 GameObject:
   m_ObjectHideFlags: 0

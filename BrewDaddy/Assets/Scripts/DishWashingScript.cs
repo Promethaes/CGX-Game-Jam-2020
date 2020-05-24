@@ -12,9 +12,10 @@ public class DishWashingScript : MonoBehaviour
     public Image qteImageCircle;
     public UIHandMovement handScript;
 
+    public float deadzoneThreshold = 0.5f;
+    public float gameLengthInSeconds = 5.0f;
 
     List<Vector2> directionSequence = new List<Vector2>();
-    List<Vector2> playerInputSequence = new List<Vector2>();
 
     bool isActive = false;
 
@@ -37,26 +38,26 @@ public class DishWashingScript : MonoBehaviour
         qteImageCircle.gameObject.SetActive(false);
         progressBar.gameObject.SetActive(false);
         progressBar.fillAmount = 1.0f;
+        correctCounter = 0;
 
         directionSequence.Clear();
-        playerInputSequence.Clear();
 
         var rand = new System.Random();
 
-       // //how many directions should there be? 
-       // for (int i = 0; i < 4; i++)
-       // {
-       //     directionSequence.Add(new Vector2(rand.Next(-1, 1), rand.Next(-1, 1)));
-       //     if (directionSequence[i] == new Vector2(0, 0))
-       //     {
-       //         directionSequence.RemoveAt(i);
-       //         i--;
-       //         continue;
-       //     }
-       //     Debug.Log(directionSequence[i]);
-       // }
+        //how many directions should there be? 
+        for (int i = 0; i < 4; i++)
+        {
+            directionSequence.Add(new Vector2(rand.Next(-1, 1), rand.Next(-1, 1)));
+            if (directionSequence[i] == new Vector2(0, 0) || directionSequence[i].magnitude > 1)
+            {
+                directionSequence.RemoveAt(i);
+                i--;
+                continue;
+            }
+            Debug.Log(directionSequence[i]);
+        }
 
-        directionSequence.Add(new Vector2(0, 1));
+        //directionSequence.Add(new Vector2(1, 1));
     }
 
     public void PromptOnorOff(bool yn)
@@ -81,74 +82,84 @@ public class DishWashingScript : MonoBehaviour
             handScript.canMove = 1;
             return;
         }
-       
+
+        //Debug.Log(handScript.rightHandInput);
+
         handScript.canMove = 0;
 
-        if (inputTimer <= 0.0f)
-            inputTimer += Time.deltaTime;
+        inputTimer += Time.deltaTime;
 
-        else if (inputTimer >= 0.5f)
+
+        if (inputTimer >= 0.5f)
         {
-
-            //code to track player inputs 
-            //check to see if we're out of a deadzone
-            inputTimer = 0.0f;
-
-             Debug.Log(handScript.rightHandInput);
-
-            //positive diagonal
-            if (handScript.rightHandInput.x > 0.5f && handScript.rightHandInput.y > 0.5f)
-                playerInputSequence.Add(new Vector2(1, 1));
-
-            //diagonal up left
-            if (handScript.rightHandInput.x < -0.5f && handScript.rightHandInput.y > 0.5f)
-                playerInputSequence.Add(new Vector2(-1, 1));
-
-            //negative diagonal
-            if (handScript.rightHandInput.x < -0.5f && handScript.rightHandInput.y < -0.5f)
-                playerInputSequence.Add(new Vector2(1, 1));
-
-            //negative down right
-            if (handScript.rightHandInput.x > 0.5f && handScript.rightHandInput.y < -0.5f)
-                playerInputSequence.Add(new Vector2(-1, 1));
-
 
             //left
-            if (handScript.rightHandInput.x < -0.5f && handScript.rightHandInput.y < 0.1f && handScript.rightHandInput.y > -0.1f)
-                playerInputSequence.Add(new Vector2(-1, 0));
+            if (handScript.rightHandInput.x < -deadzoneThreshold && handScript.rightHandInput.y < deadzoneThreshold && handScript.rightHandInput.y > -deadzoneThreshold)
+            {
+                if (directionSequence[correctCounter] == new Vector2(-1, 0))
+                {
+                    correctCounter++;
+                    Debug.Log("correct!");
+
+                }
+
+                inputTimer = 0.0f;
+            }
 
             //right
-            if (handScript.rightHandInput.x > 0.5f && handScript.rightHandInput.y < 0.1f && handScript.rightHandInput.y > -0.1f)
-                playerInputSequence.Add(new Vector2(1, 0));
+            if (handScript.rightHandInput.x > deadzoneThreshold && handScript.rightHandInput.y < deadzoneThreshold && handScript.rightHandInput.y > -deadzoneThreshold)
+            {
+                if (directionSequence[correctCounter] == new Vector2(1, 0))
+                {
+                    correctCounter++;
+                    Debug.Log("correct!");
+
+                }
+
+                inputTimer = 0.0f;
+            }
 
             //down
-            if (handScript.rightHandInput.y < -0.5f && handScript.rightHandInput.x < 0.1f && handScript.rightHandInput.x > -0.1f)
-                playerInputSequence.Add(new Vector2(0, -1));
+            if (handScript.rightHandInput.y < -deadzoneThreshold && handScript.rightHandInput.x < deadzoneThreshold && handScript.rightHandInput.x > -deadzoneThreshold)
+            {
+                if (directionSequence[correctCounter] == new Vector2(0, -1))
+                {
+                    correctCounter++;
+                    Debug.Log("correct!");
+
+                }
+
+                inputTimer = 0.0f;
+            }
 
             //up
-            if (handScript.rightHandInput.y > 0.5f && handScript.rightHandInput.x < 0.1f && handScript.rightHandInput.x > -0.1f)
-                playerInputSequence.Add(new Vector2(0, 1));
+            if (handScript.rightHandInput.y > deadzoneThreshold && handScript.rightHandInput.x < deadzoneThreshold && handScript.rightHandInput.x > -deadzoneThreshold)
+            {
+                if (directionSequence[correctCounter] == new Vector2(0, 1))
+                {
+                    correctCounter++;
+                    Debug.Log("correct!");
+
+                }
+
+                inputTimer = 0.0f;
+            }
         }
 
-
-
-
-        int index = playerInputSequence.Count - 1;
-
-        if (index >= 0 && playerInputSequence[index]
-            == directionSequence[correctCounter])
+        if (correctCounter == directionSequence.Count)
         {
-            Debug.Log("Correct!\n");
+            Debug.Log("You won!");
+            resetQTE();
         }
 
-        progressBar.fillAmount -= Time.deltaTime / 5.0f;
+        progressBar.fillAmount -= Time.deltaTime / gameLengthInSeconds;
 
         if (progressBar.fillAmount <= 0.0f)
         {
-           // Debug.Log("Player input:");
-           // for (int i = 0; i < playerInputSequence.Count; i++)
-           //     Debug.Log(playerInputSequence[i]);
-           // Debug.Log("End of player input");
+            //Debug.Log("Player input:"); 
+            //for (int i = 0; i < playerInputSequence.Count; i++)
+            //    Debug.Log(playerInputSequence[i]);
+            //Debug.Log("End of player input");
             resetQTE();
         }
 
