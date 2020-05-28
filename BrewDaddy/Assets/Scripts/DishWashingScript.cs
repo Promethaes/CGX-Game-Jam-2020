@@ -11,6 +11,7 @@ public class DishWashingScript : MonoBehaviour
     public Image progressBar;
     public Image qteImageCircle;
     public UIHandMovement handScript;
+    public DishManager dishManager;
 
     public float deadzoneThreshold = 0.5f;
     public float gameLengthInSeconds = 5.0f;
@@ -19,6 +20,7 @@ public class DishWashingScript : MonoBehaviour
 
     bool isActive = false;
 
+    int numDirty = 0;
 
 
     // Start is called before the first frame update 
@@ -32,14 +34,8 @@ public class DishWashingScript : MonoBehaviour
 
     }
 
-    public void resetQTE()
+    public void resetDirectionSequence()
     {
-        isActive = false;
-        qteImageCircle.gameObject.SetActive(false);
-        progressBar.gameObject.SetActive(false);
-        progressBar.fillAmount = 1.0f;
-        correctCounter = 0;
-
         directionSequence.Clear();
 
         var rand = new System.Random();
@@ -56,6 +52,18 @@ public class DishWashingScript : MonoBehaviour
             }
             Debug.Log(directionSequence[i]);
         }
+    }
+
+    public void resetQTE()
+    {
+        numDirty = dishManager.numDirtyDishes;
+        isActive = false;
+        qteImageCircle.gameObject.SetActive(false);
+        progressBar.gameObject.SetActive(false);
+        progressBar.fillAmount = 1.0f;
+        correctCounter = 0;
+
+        resetDirectionSequence();
 
         //directionSequence.Add(new Vector2(1, 1));
     }
@@ -148,8 +156,14 @@ public class DishWashingScript : MonoBehaviour
 
         if (correctCounter == directionSequence.Count)
         {
-            Debug.Log("You won!");
-            resetQTE();
+            Debug.Log("Next Dish!");
+
+            numDirty--;
+            if (numDirty == 0)
+                resetQTE();
+            else
+                resetDirectionSequence();
+
         }
 
         progressBar.fillAmount -= Time.deltaTime / gameLengthInSeconds;
