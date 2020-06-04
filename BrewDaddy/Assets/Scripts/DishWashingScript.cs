@@ -20,8 +20,6 @@ public class DishWashingScript : MonoBehaviour
 
     bool isActive = false;
 
-    int numDirty = 0;
-
 
     // Start is called before the first frame update 
     void Start()
@@ -56,7 +54,6 @@ public class DishWashingScript : MonoBehaviour
 
     public void resetQTE()
     {
-        numDirty = dishManager.numDirtyDishes;
         isActive = false;
         qteImageCircle.gameObject.SetActive(false);
         progressBar.gameObject.SetActive(false);
@@ -75,9 +72,11 @@ public class DishWashingScript : MonoBehaviour
 
     public void ActivateQTE()
     {
-        isActive = true;
-        qteImageCircle.gameObject.SetActive(true);
-        progressBar.gameObject.SetActive(true);
+        if (dishManager.numDirtyDishes > 0){
+            isActive = true;
+            qteImageCircle.gameObject.SetActive(true);
+            progressBar.gameObject.SetActive(true);
+        }
     }
 
     float inputTimer = 0.5f;
@@ -158,8 +157,7 @@ public class DishWashingScript : MonoBehaviour
         {
             Debug.Log("Next Dish!");
 
-            numDirty--;
-            if (numDirty == 0)
+            if (dishManager.numDirtyDishes == 0)
                 resetQTE();
             else
                 resetDirectionSequence();
